@@ -144,7 +144,7 @@ Netlogo[1] model of self-organized decision-making process based on article by C
 
 ## HOW IT WORKS
 
-(what rules the agents use to create the overall behavior of the model)
+click SETUP and overview Shelters position on a model, if not satisfied with Shelters position click SETUP again. Then click Go button.
 
 ## HOW TO USE IT
 
