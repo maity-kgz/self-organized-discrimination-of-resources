@@ -1,0 +1,45 @@
+to doExplore  
+    doRandomMove     
+end
+
+to doStay
+    set shape "face happy"
+    doRandomMove    
+    if isOutsideOfResource
+    [ doReturnBackToResource ]  
+  
+end
+
+to doReturnBackToResource
+  right 180 forward 1
+end
+
+
+
+;;-----------helper function ------------------
+
+to doRandomMove
+  right random 180
+  left random 180
+  forward 1
+  checkForOtherRobots
+    
+end
+
+to checkForOtherRobots  
+  if any? other turtles-here [
+      set robots-encountered robots-encountered + 1 
+  ] 
+end
+
+to-report isOutsideOfResource
+  ifelse shelter-id > 0
+  [report false]
+  [report true]
+end
+
+to-report isFoundResource
+  ifelse shelter-id > 0
+  [report true ]
+  [report false]  
+end 

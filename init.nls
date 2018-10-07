@@ -1,0 +1,65 @@
+to setup-shelters
+  
+  ;;set random-shelter2 random-float -0.7
+  let cur-shelter shelters-number
+  let target-shelter true
+  
+  repeat shelters-number[
+    
+    let shelter-x ((random-float 0.7) * one-of[-1 1])
+    ;type "shelter-x = " show shelter-x
+    let shelter-y ((random-float 0.7) * one-of[-1 1]) 
+    ;type "shelter-y = " show shelter-y
+    let others (random 3) + 1
+    
+    ask patches[
+      
+      ifelse target-shelter[
+        if (distancexy ceiling((shelter-x * max-pxcor)) ceiling((shelter-y * max-pycor))) < 2
+        [ set shelter-id cur-shelter ]  
+      ]
+      [
+        if (distancexy ceiling((shelter-x * max-pxcor)) ceiling((shelter-y * max-pycor))) < others
+        [ set shelter-id cur-shelter ]  
+      ]
+    ]
+    
+    set cur-shelter cur-shelter - 1     
+    set target-shelter false
+    
+  ]
+  
+  
+end
+
+to recolor-patch  ;; patch procedure
+  ;; give color to nest and food sources
+  ask patches[
+   if shelter-id = shelters-number
+    [  set pcolor green ] 
+   if (shelter-id > 0 and shelter-id != shelters-number)
+    [ set pcolor red]
+  ]
+    
+    
+end
+
+to separate-robots ;; turtle procedure
+  ask robots[
+  if any? other turtles-here [
+    fd 1
+    separate-robots
+  ]  ]
+end
+
+to setup-robots
+  create-robots robots-number [ 
+    setxy round(random-xcor) round(random-ycor )
+    set size 1
+    set shape "face sad"
+    
+    set explore 1
+    set stay 0
+    set backToResource 0 
+  ]
+end
