@@ -4,6 +4,8 @@ breed [robots robot]
 
 robots-own [
   robots-encountered
+  robotsDensity
+  buddiesAround
   explore
   stay
   backToResource
@@ -15,11 +17,13 @@ shelter-id
 ]
 
 globals[
-
+  robotSensingRadius   ;  0.041666667  for 24 neighbours, 0.125  for 8 neighbours
 ]
 
 to setup
   clear-all
+
+  set robotSensingRadius 0.125
   setup-shelters
   recolor-patch
   setup-robots
@@ -28,21 +32,30 @@ to setup
 end
 
 to go
+  tick
+
+  if (ticks > 29) and (ticks mod 30) = 0
+  [ask robots[
+    doCalculateProbabilityToLeaveResource
+
+    ]
+  ]
+
   ask robots[
   ifelse isFoundResource
     [ doStay ]
     [doExplore]]
-  tick
+
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 523
 10
-960
-448
+927
+415
 -1
 -1
-13.0
+12.0
 1
 10
 1
@@ -120,7 +133,7 @@ robots-number
 robots-number
 1
 100
-57.0
+55.0
 1
 1
 NIL
@@ -129,10 +142,21 @@ HORIZONTAL
 MONITOR
 10
 241
-174
+133
 286
-Target Shelter Patches
+Target Patches
 count patches with [shelter-id = shelters-number]
+17
+1
+11
+
+MONITOR
+12
+295
+130
+340
+Robots on Target
+count robots with [shelter-id = shelters-number]
 17
 1
 11
@@ -144,7 +168,7 @@ Netlogo[1] model of self-organized decision-making process based on article by C
 
 ## HOW IT WORKS
 
-click SETUP and overview Shelters position on a model, if not satisfied with Shelters position click SETUP again til
+click SETUP and overview Shelters position on a model, if not satisfied with Shelters position click SETUP again. Then click Go button.
 
 ## HOW TO USE IT
 
@@ -481,7 +505,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0.3
+NetLogo 6.0.4
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

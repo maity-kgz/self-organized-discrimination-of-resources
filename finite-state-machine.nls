@@ -1,17 +1,27 @@
 to doExplore  
+    set stay 0
+    set explore 1
     doRandomMove     
 end
 
 to doStay
+    set stay 1
+    set explore 0
     set shape "face happy"
-    doRandomMove    
-    if isOutsideOfResource
-    [ doReturnBackToResource ]  
+    
+    ;doRandomMove    
+    doMoveInsideResource
+    checkForOtherRobots
+    ;if isOutsideOfResource
+    ;[ doReturnBackToResource ]  
   
 end
 
 to doReturnBackToResource
   right 180 forward 1
+  if (patch-ahead 1) != nobody[
+  if not any? robots-on patch-ahead 1
+        [forward 1]]
 end
 
 
@@ -21,15 +31,32 @@ end
 to doRandomMove
   right random 180
   left random 180
-  forward 1
-  checkForOtherRobots
-    
+  if (patch-ahead 1) != nobody[
+  if not any? robots-on patch-ahead 1
+        [forward 1]] 
+end
+
+to doMoveInsideResource
+  right random 180
+  left random 180
+  if (patch-ahead 1) != nobody[
+  if not any? robots-on patch-ahead 1 and ([shelter-id] of patch-ahead 1)  > 0
+        [forward 1]] 
+  
 end
 
 to checkForOtherRobots  
-  if any? other turtles-here [
-      set robots-encountered robots-encountered + 1 
-  ] 
+  if any? turtles-on patches in-radius 1.5 [
+    ;set robots-encountered robots-encountered + count turtles-on neighbors
+    set buddiesAround (count turtles-on patches in-radius 1.5) ;The distance to or a from a patch is measured from the center of the patch.
+    
+    set robots-encountered (robots-encountered + (buddiesAround * robotSensingRadius) ) 
+  ]
+  ;[ set robots-encountered 0 ]
+  
+  ;if any? other turtles-here [
+   ;   set robots-encountered robots-encountered + 1 
+  ;] 
 end
 
 to-report isOutsideOfResource
@@ -43,3 +70,20 @@ to-report isFoundResource
   [report true ]
   [report false]  
 end 
+
+
+to doCalculateProbabilityToLeaveResource
+  
+  if stay = 1
+  [
+  ;ifelse (random 100)  > 50
+  ;  [fd 10    set robots-encountered 0  set label ""   set robots-encountered 0]
+  ;  [set label "no"]
+    
+    set robotsDensity robots-encountered / 30
+    set robots-encountered 0
+    
+  
+  ]
+  
+end
