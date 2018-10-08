@@ -76,13 +76,23 @@ to doCalculateProbabilityToLeaveResource
   
   if stay = 1
   [
-  ;ifelse (random 100)  > 50
-  ;  [fd 10    set robots-encountered 0  set label ""   set robots-encountered 0]
-  ;  [set label "no"]
-    
     set robotsDensity robots-encountered / 30
     set robots-encountered 0
+    set Q (θ / (1 + ρ * (robotsDensity * robotsDensity) ))
     
+  if (Q < 0.3)
+    [set stayCounter stayCounter + 1 ]
+  if (Q > 0.75)
+    [fd 5  set leaveCounter leaveCounter + 1 ]
+    
+    
+  if (0.3 < Q and Q < 0.75)
+    [ let randomAction one-of [0 1] ; 1 -leave Resource, 0 - stay at Resource
+      ifelse randomAction = 1
+      [fd 5  set leaveCounter leaveCounter + 1 ]
+      [set stayCounter stayCounter + 1]
+    ]
+       
   
   ]
   

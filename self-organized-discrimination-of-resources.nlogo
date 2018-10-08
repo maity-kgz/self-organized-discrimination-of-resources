@@ -9,6 +9,9 @@ robots-own [
   explore
   stay
   backToResource
+  leaveCounter
+  stayCounter
+  Q
 
 ]
 
@@ -23,7 +26,7 @@ globals[
 to setup
   clear-all
 
-  set robotSensingRadius 0.125
+  set robotSensingRadius 0.111
   setup-shelters
   recolor-patch
   setup-robots
@@ -51,11 +54,11 @@ end
 GRAPHICS-WINDOW
 523
 10
-927
-415
+861
+349
 -1
 -1
-12.0
+10.0
 1
 10
 1
@@ -76,10 +79,10 @@ ticks
 30.0
 
 BUTTON
-9
-107
-82
-140
+21
+10
+94
+43
 NIL
 setup
 NIL
@@ -93,10 +96,10 @@ NIL
 1
 
 BUTTON
-114
-107
-177
-140
+110
+10
+173
+43
 NIL
 go
 T
@@ -110,40 +113,40 @@ NIL
 0
 
 SLIDER
-10
-199
-182
-232
+19
+57
+148
+90
 shelters-number
 shelters-number
 2
 10
-3.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-243
-199
-415
-232
+20
+99
+149
+132
 robots-number
 robots-number
 1
 100
-55.0
+9.0
 1
 1
 NIL
 HORIZONTAL
 
 MONITOR
+184
 10
-241
-133
-286
+307
+55
 Target Patches
 count patches with [shelter-id = shelters-number]
 17
@@ -151,15 +154,75 @@ count patches with [shelter-id = shelters-number]
 11
 
 MONITOR
-12
-295
-130
-340
+184
+59
+302
+104
 Robots on Target
 count robots with [shelter-id = shelters-number]
 17
 1
 11
+
+SLIDER
+10
+386
+112
+419
+ρ
+ρ
+1
+600
+159.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+10
+341
+110
+374
+θ
+θ
+0
+1
+1.0
+0.1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+12
+207
+112
+240
+target-R
+target-R
+1
+10
+2.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+12
+170
+110
+203
+other-R
+other-R
+1
+10
+5.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -505,7 +568,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0.4
+NetLogo 6.0.3
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

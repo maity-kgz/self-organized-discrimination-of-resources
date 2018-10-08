@@ -10,16 +10,16 @@ to setup-shelters
     ;type "shelter-x = " show shelter-x
     let shelter-y ((random-float 0.7) * one-of[-1 1]) 
     ;type "shelter-y = " show shelter-y
-    let others (random 3) + 1
+    ;let others (random 3) + 1
     
     ask patches[
       
       ifelse target-shelter[
-        if (distancexy ceiling((shelter-x * max-pxcor)) ceiling((shelter-y * max-pycor))) < 2
+        if (distancexy ceiling((shelter-x * max-pxcor)) ceiling((shelter-y * max-pycor))) < target-R
         [ set shelter-id cur-shelter ]  
       ]
       [
-        if (distancexy ceiling((shelter-x * max-pxcor)) ceiling((shelter-y * max-pycor))) < others
+        if (distancexy ceiling((shelter-x * max-pxcor)) ceiling((shelter-y * max-pycor))) < other-R
         [ set shelter-id cur-shelter ]  
       ]
     ]
