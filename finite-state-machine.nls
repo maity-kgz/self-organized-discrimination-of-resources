@@ -7,7 +7,7 @@ end
 to doStay
     set stay 1
     set explore 0
-    set shape "face happy"
+    ;set shape "face happy"
     
     ;doRandomMove    
     doMoveInsideResource
@@ -46,12 +46,15 @@ to doMoveInsideResource
 end
 
 to checkForOtherRobots  
-  if any? turtles-on patches in-radius 1.5 [
+  ifelse any? robots-on patches in-radius 2 [
     ;set robots-encountered robots-encountered + count turtles-on neighbors
-    set buddiesAround (count turtles-on patches in-radius 1.5) ;The distance to or a from a patch is measured from the center of the patch.
+    set buddiesAround (count robots-on patches in-radius 2) - 1 ;; Why -1? Deduct current robot itself from robots counted in radius. Netlogo counts asking robot too. The distance to or a from a patch is measured from the center of the patch.
     
     set robots-encountered (robots-encountered + (buddiesAround * robotSensingRadius) ) 
+    ;;set robots-encountered robots-encountered + buddiesAround 
   ]
+  
+  [set buddiesAround 0] ;; if not any turtle in radius 1, no buddies around, set to zero, helps to monitor current status of a robot
   ;[ set robots-encountered 0 ]
   
   ;if any? other turtles-here [
@@ -74,24 +77,32 @@ end
 
 to doCalculateProbabilityToLeaveResource
   
+  
+  
   if stay = 1
   [
     set robotsDensity robots-encountered / 30
     set robots-encountered 0
-    set Q (θ / (1 + ρ * (robotsDensity * robotsDensity) ))
-    
-  if (Q < 0.3)
-    [set stayCounter stayCounter + 1 ]
-  if (Q > 0.75)
-    [fd 5  set leaveCounter leaveCounter + 1 ]
+    set Q-leave (θ / (1 + ρ * (robotsDensity * robotsDensity) ))
     
     
-  if (0.3 < Q and Q < 0.75)
-    [ let randomAction one-of [0 1] ; 1 -leave Resource, 0 - stay at Resource
-      ifelse randomAction = 1
-      [fd 5  set leaveCounter leaveCounter + 1 ]
-      [set stayCounter stayCounter + 1]
+    ifelse random 100 < (Q-leave * 100) [  ;; https://stackoverflow.com/questions/24157444/checking-probabilities-and-random-numbers-netlogo      
+      fd 5  set leaveCounter leaveCounter + 1  set stay 0 set explore 1      
     ]
+    [ set stayCounter stayCounter + 1 ]
+    
+  ;;if (Q-leave < 0.3)
+   ;; [set stayCounter stayCounter + 1 ]
+  ;;if (Q-leave > 0.7)
+    ;;[fd 5  set leaveCounter leaveCounter + 1  set stay 0 set explore 1]
+    
+    
+  ;;if (0.3 < Q-leave and Q-leave < 0.7)
+   ;; [ let randomAction one-of [0 1] ; 1 -leave Resource, 0 - stay at Resource
+    ;;  ifelse randomAction = 1
+     ;; [fd 5  set leaveCounter leaveCounter + 1 set stay 0 set explore 1 ]
+      ;;[set stayCounter stayCounter + 1]
+    ;;]
        
   
   ]

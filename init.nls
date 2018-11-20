@@ -35,13 +35,26 @@ end
 to recolor-patch  ;; patch procedure
   ;; give color to nest and food sources
   ask patches[
-   if shelter-id = shelters-number
+   if shelter-id = shelters-number ;; shelters-number used to identify target shelter, i.e target shelters ID equal to value of "shelters-number" slider
     [  set pcolor green ] 
-   if (shelter-id > 0 and shelter-id != shelters-number)
+   if (shelter-id > 0 and shelter-id != shelters-number)   ;;shelter-id is patch owned variable
     [ set pcolor red]
   ]
     
     
+end
+
+
+to setup-robots
+  create-robots robots-number [ 
+    setxy round(random-xcor) round(random-ycor )
+    set size 1
+    set shape "default"
+    
+    set explore 1
+    set stay 0
+    set backToResource 0 
+  ]
 end
 
 to separate-robots ;; turtle procedure
@@ -50,16 +63,4 @@ to separate-robots ;; turtle procedure
     fd 1
     separate-robots
   ]  ]
-end
-
-to setup-robots
-  create-robots robots-number [ 
-    setxy round(random-xcor) round(random-ycor )
-    set size 1
-    set shape "face sad"
-    
-    set explore 1
-    set stay 0
-    set backToResource 0 
-  ]
 end

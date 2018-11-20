@@ -11,7 +11,7 @@ robots-own [
   backToResource
   leaveCounter
   stayCounter
-  Q
+  Q-leave
 
 ]
 
@@ -26,7 +26,7 @@ globals[
 to setup
   clear-all
 
-  set robotSensingRadius 0.111
+  set robotSensingRadius 0.041666667 ;; TODO Consider to remove this var as NO NEED ANYMORE
   setup-shelters
   recolor-patch
   setup-robots
@@ -37,28 +37,31 @@ end
 to go
   tick
 
-  if (ticks > 29) and (ticks mod 30) = 0
+  ask robots[
+  ifelse isFoundResource
+    [ doStay ]
+    [doExplore]]
+
+
+  if (ticks mod 30) = 0
   [ask robots[
     doCalculateProbabilityToLeaveResource
 
     ]
   ]
 
-  ask robots[
-  ifelse isFoundResource
-    [ doStay ]
-    [doExplore]]
+
 
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 523
 10
-861
-349
+846
+334
 -1
 -1
-10.0
+15.0
 1
 10
 1
@@ -68,10 +71,10 @@ GRAPHICS-WINDOW
 0
 0
 1
--16
-16
--16
-16
+-10
+10
+-10
+10
 1
 1
 1
@@ -136,7 +139,7 @@ robots-number
 robots-number
 1
 100
-9.0
+25.0
 1
 1
 NIL
@@ -173,7 +176,7 @@ SLIDER
 ρ
 1
 600
-159.0
+400.0
 1
 1
 NIL
@@ -203,7 +206,7 @@ target-R
 target-R
 1
 10
-2.0
+3.0
 1
 1
 NIL
@@ -218,7 +221,7 @@ other-R
 other-R
 1
 10
-5.0
+2.0
 1
 1
 NIL
