@@ -124,7 +124,7 @@ shelters-number
 shelters-number
 2
 10
-2.0
+4.0
 1
 1
 NIL
@@ -139,7 +139,7 @@ robots-number
 robots-number
 1
 100
-25.0
+12.0
 1
 1
 NIL
@@ -176,7 +176,7 @@ SLIDER
 ρ
 1
 600
-400.0
+600.0
 1
 1
 NIL
@@ -206,7 +206,7 @@ target-R
 target-R
 1
 10
-3.0
+2.0
 1
 1
 NIL
@@ -221,7 +221,7 @@ other-R
 other-R
 1
 10
-2.0
+4.0
 1
 1
 NIL
@@ -241,14 +241,18 @@ click SETUP and overview Shelters position on a model, if not satisfied with She
 (how to use the model, including a description of each of the items in the Interface tab)
 
 ## THINGS TO NOTICE
+Interestingly, the generalized model predicts that the group selects the smallest resource available that is large enough to sustain the group.
 
 (suggested things for the user to notice while running the model)
 
 ## THINGS TO TRY
+The model predicts that, when each shelter is sufficiently large to house all the robots, the group will aggregate in only one of them. If shelters are too small the model predicts that the group will use two or more shelters equally.
 
 (suggested things for the user to try to do (move sliders, switches, etc.) with the model)
 
 ## EXTENDING THE MODEL
+Try to implement another methods for density estimation.
+Current model takes inspiration from a recent study of emigrating ants Temnothorax albipennis. These ants rely on the rate of encounters with other ants to evaluate the density of individuals in a cavity: the more contacts they have with other ants, the greater their estimated value of the density, Using this simple mechanism, it is possible to implement  the collective selection process.
 
 (suggested things to add or change in the Code tab to make the model more complicated, detailed, accurate, etc.)
 
@@ -571,7 +575,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0.3
+NetLogo 6.0.4
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

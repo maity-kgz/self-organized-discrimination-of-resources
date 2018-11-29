@@ -1,4 +1,13 @@
 to setup-shelters
+  ;; https://math.stackexchange.com/questions/2548513/maximum-number-of-circle-packing-into-a-rectangle
+  ;;let worldArea world-width * world-height
+  ;;let max-R max list other-R target-R
+  ;;if ((worldArea * pi) / (2 * sqrt 3)) / ((max-R * max-R) / pi) < shelters-number  
+  if (shelters-number * other-R + target-R) > (world-width / 1.5) ;; Experimentally pick up 1.5, Or uncomment 3 lines above and comment out this line, to run on "optimum circle packing" method.
+  [
+    user-message (word "Too many shelters or too big shelter radius given. Can not place shelters on the arena. Click HALT and reset shelters params." (shelters-number * other-R + target-R) " > " (world-width / 2))
+    stop
+  ]
   
   ;;set random-shelter2 random-float -0.7
   let cur-shelter shelters-number
@@ -6,11 +15,17 @@ to setup-shelters
   
   repeat shelters-number[
     
-    let shelter-x ((random-float 0.7) * one-of[-1 1])
-    ;type "shelter-x = " show shelter-x
-    let shelter-y ((random-float 0.7) * one-of[-1 1]) 
-    ;type "shelter-y = " show shelter-y
-    ;let others (random 3) + 1
+    let shelter-x ((random-float 0.7) * one-of[-1 1])    
+    let shelter-y ((random-float 0.7) * one-of[-1 1])
+    
+    while [isPatchUsedForShelter shelter-x shelter-y]
+    [
+      set shelter-x ((random-float 0.7) * one-of[-1 1])    
+      set shelter-y ((random-float 0.7) * one-of[-1 1])
+    ]
+    
+    
+    
     
     ask patches[
       
@@ -27,8 +42,28 @@ to setup-shelters
     set cur-shelter cur-shelter - 1     
     set target-shelter false
     
-  ]
+  ] 
   
+end
+
+to-report isPatchUsedForShelter[x y]
+  
+  let patchAlreadyUsed false
+  let maxRadius 0
+  ifelse other-R > target-R
+  [set maxRadius other-R]
+  [set maxRadius target-R]
+  
+  ask patches[      
+    if (distancexy ceiling((x * max-pxcor)) ceiling((y * max-pycor))) < (maxRadius + 2)
+        [
+          if (shelter-id > 0) 
+              [set patchAlreadyUsed true ]
+         ]        
+    
+    ]
+  
+    report patchAlreadyUsed
   
 end
 

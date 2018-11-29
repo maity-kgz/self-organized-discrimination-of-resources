@@ -46,9 +46,9 @@ to doMoveInsideResource
 end
 
 to checkForOtherRobots  
-  ifelse any? robots-on patches in-radius 2 [
+  ifelse any? robots-on patches in-radius 2.5 [
     ;set robots-encountered robots-encountered + count turtles-on neighbors
-    set buddiesAround (count robots-on patches in-radius 2) - 1 ;; Why -1? Deduct current robot itself from robots counted in radius. Netlogo counts asking robot too. The distance to or a from a patch is measured from the center of the patch.
+    set buddiesAround (count robots-on patches in-radius 2.5) - 1 ;; Why -1? Deduct current robot itself from robots counted in radius. Netlogo counts asking robot too. The distance to or a from a patch is measured from the center of the patch.
     
     set robots-encountered (robots-encountered + (buddiesAround * robotSensingRadius) ) 
     ;;set robots-encountered robots-encountered + buddiesAround 
